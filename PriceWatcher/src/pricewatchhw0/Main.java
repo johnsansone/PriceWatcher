@@ -1,6 +1,8 @@
 package pricewatchhw0;
 
-public class Main {
+import javax.swing.*;
+
+public class Main extends JFrame {
 
 	private UI ui;
 	private Item item;
