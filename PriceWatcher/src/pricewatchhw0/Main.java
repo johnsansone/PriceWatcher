@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -26,7 +27,7 @@ import java.net.URISyntaxException;
 * @author Yoonsik Cheon
 */
 @SuppressWarnings("serial")
-public class Main extends JFrame {
+public class Main extends JFrame{
 
     /** Default dimension of the dialog. */
     private final static Dimension DEFAULT_SIZE = new Dimension(400, 300);
@@ -58,13 +59,14 @@ public class Main extends JFrame {
     /** Callback to be invoked when the refresh button is clicked. 
      * Find the current price of the watched item and display it 
      * along with a percentage price change. */
-    private void refreshButtonClicked(ActionEvent event) {
-    	//--
-    	//-- WRITE YOUR CODE HERE!
-    	//--
-    	showMessage("Refresh clicked!");
+    public class refreshButtonClicked implements ActionListener {
+
+    	public void actionPerformed(ActionEvent e) {
+    		// TODO Auto-generated method stub
+    		showMessage("Refresh clicked!");
+    	}
+
     }
-    
     /** Callback to be invoked when the view-page icon is clicked.
      * Launch a (default) web browser by supplying the URL of
      * the item. 
@@ -87,7 +89,7 @@ public class Main extends JFrame {
         		BorderFactory.createLineBorder(Color.GRAY)));
         board.setLayout(new GridLayout(1,1));
         itemView = new ItemView();
-       // itemView.setClickListener(this::viewPageClicked);
+       //itemView.setClickListener(this.itemView);
         board.add(itemView);
         add(board, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));
@@ -99,13 +101,13 @@ public class Main extends JFrame {
     	JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
     	JButton refreshButton = new JButton("Refresh");
     	refreshButton.setFocusPainted(false);
-      //  refreshButton.addActionListener(this::refreshButtonClicked);
+		refreshButton.addActionListener(new refreshButtonClicked());
         panel.add(refreshButton);
         return panel;
     }
 
     /** Show briefly the given string in the message bar. */
-    private void showMessage(String msg) {
+    private void showMessage(final String msg) {
         msgBar.setText(msg);
         Thread thread = new Thread();
 		class thread extends Thread{
@@ -116,16 +118,17 @@ public class Main extends JFrame {
 				} 	
         		catch (InterruptedException e) {
 				}
-        			//if (msg.equals(msgBar.getText())) {
-        				//msgBar.setText(" ");
-        		//}
+        			if (msg.equals(msgBar.getText())) {
+        				msgBar.setText(" ");
+        		}
         	}
         }
-        thread.start();
+        thread.run();
     }
     
     public static void main(String[] args) {
         new Main();
     }
+
 
 }
