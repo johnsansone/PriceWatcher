@@ -1,6 +1,7 @@
 package pricewatchhw0;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -11,6 +12,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import pricewatchhw0.Main.refreshButtonClicked;
 
 
 
@@ -45,23 +48,27 @@ public class ItemView extends JPanel {
         
     /** Set the view-page click listener. 
      * @param object */
-    public void setClickListener(Object obj) {
-    	
-    	//this.viewPageClicked();
+
+    public void setClickListener(ClickListener listener) {
+    	this.listener = listener;
     }
+   // public void setClickListener(Object obj) {
+    	
+    //	this.viewPageClicked();
+   // }
     
     /** Overridden here to display the details of the item. */
     @Override
 	public void paint(Graphics g) {
         super.paint(g); 
-        //Dimension dim = getSize();
+        Dimension dim = getSize();
         
         //--
         //-- WRITE YOUR CODE HERE!
         //--
         int x = 20, y = 30;
-        // g.drawImage(getImage("view.png"), x, y)
-        g.drawString("[View]", x, y);
+         g.drawImage(getImage("dolar.png"), x, y, this);
+        //g.drawString("[View]", x, y);
         y += 20;
         g.drawString("Hi, I am your item!", x, y);
 
@@ -85,5 +92,10 @@ public class ItemView extends JPanel {
         }
         return null;
     }
+
+	public void setClickListener(refreshButtonClicked refreshButtonClicked) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

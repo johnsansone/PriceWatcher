@@ -16,11 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import java.awt.Desktop;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.lang.Thread;
 /**
 * A dialog for tracking the price of an item.
 *
@@ -72,10 +72,26 @@ public class Main extends JFrame{
      * the item. 
      * @throws URISyntaxException 
      * @throws IOException */
-    private void viewPageClicked() throws IOException, URISyntaxException {    	
-		Desktop.getDesktop().browse(new URI("http://www.bestbuy.com/site/samsung-ue590-series-28-led-4k-uhd-monitor-black/5484022.p?skuId=5484022"));
-    	showMessage("View clicked!");
+    public class viewPageClicked implements ActionListener {
+
+    	public void actionPerformed(ActionEvent e) {  	
+    		try {
+				Desktop.getDesktop().browse(new URI("http://www.bestbuy.com/site/samsung-ue590-series-28-led-4k-uhd-monitor-black/5484022.p?skuId=5484022"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	showMessage("View clicked!");
+    	}
+
     }
+    //private void viewPageClicked() throws IOException, URISyntaxException {    	
+	//	Desktop.getDesktop().browse(new URI("http://www.bestbuy.com/site/samsung-ue590-series-28-led-4k-uhd-monitor-black/5484022.p?skuId=5484022"));
+    //	showMessage("View clicked!");
+   // }
         
     /** Configure UI. */
     private void configureUI() {
@@ -89,7 +105,7 @@ public class Main extends JFrame{
         		BorderFactory.createLineBorder(Color.GRAY)));
         board.setLayout(new GridLayout(1,1));
         itemView = new ItemView();
-       //itemView.setClickListener(this.itemView);
+        //itemView.setClickListener(this.new refreshButtonClicked());
         board.add(itemView);
         add(board, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));
@@ -109,21 +125,39 @@ public class Main extends JFrame{
     /** Show briefly the given string in the message bar. */
     private void showMessage(final String msg) {
         msgBar.setText(msg);
-        Thread thread = new Thread();
-		class thread extends Thread{
-        	public void run(){
+         Thread threadrun = new Thread();
         
+			//try {
+			//	Thread.sleep(3 * 1000);
+			//} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+			//	e.printStackTrace();
+			//} // 3 seconds
+
+    		//if (msg.equals(msgBar.getText())) 
+    		//	msgBar.setText(" ");
+    	
+		 	threadrun.start();
+        class threadrun extends Thread{
+        	
+        	public void run(){
+        		msgBar.setText("here");
         		try {
+        			msgBar.setText("here");
         			Thread.sleep(3 * 1000); // 3 seconds
+
+            		if (msg.equals(msgBar.getText())) {
+            			msgBar.setText(" ");
+            		}
 				} 	
         		catch (InterruptedException e) {
 				}
-        			if (msg.equals(msgBar.getText())) {
-        				msgBar.setText(" ");
-        		}
+        		
         	}
         }
-        thread.run();
+        Thread thread = new Thread(new threadrun());
+	 	threadrun.start();
+        //thread.run();
     }
     
     public static void main(String[] args) {
