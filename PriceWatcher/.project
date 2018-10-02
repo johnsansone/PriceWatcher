@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/pricewatchhw0/image/dolar.png</name>
+			<type>1</type>
+			<location>C:/Users/mjsan/git/PriceWatch/PriceWatcher/src/pricewatchhw0/image/dolar.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -1,7 +1,7 @@
 package pricewatchhw0;
 
 import java.awt.Color;
-import java.awt.Dimension;
+//import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -61,7 +61,7 @@ public class ItemView extends JPanel {
     @Override
 	public void paint(Graphics g) {
         super.paint(g); 
-        Dimension dim = getSize();
+        //Dimension dim = getSize(); // not used?
         
         //--
         //-- WRITE YOUR CODE HERE!
