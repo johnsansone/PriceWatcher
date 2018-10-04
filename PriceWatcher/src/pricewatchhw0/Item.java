@@ -23,7 +23,7 @@ public class Item {
 		currentPriceString = df.format(currentPrice);
 		return currentPriceString;
 	}
-	public String returnPercent()
+	public String returnPercentString()
 	{
 		DecimalFormat df = new DecimalFormat("#.##");
 		percentString = df.format(percent);
@@ -40,6 +40,10 @@ public class Item {
 		
 		return percentString;
 		
+	}
+	public float returnPercent()
+	{
+		return percent;
 	}
 	public String returnName()
 	{

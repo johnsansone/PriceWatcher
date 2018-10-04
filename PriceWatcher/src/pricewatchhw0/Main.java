@@ -61,7 +61,7 @@ public class Main extends JFrame {
     	//--
         product.setPrice(price.getNewPrice());
         
-    	itemView.paint(itemView.getGraphics(), product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercent(),product.returnName());
+    	itemView.paint(itemView.getGraphics(), product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercentString(),product.returnName(),product.returnPercent());
     	showMessage("Refresh clicked!");
     }
     

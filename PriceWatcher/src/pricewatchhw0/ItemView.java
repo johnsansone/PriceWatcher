@@ -68,7 +68,7 @@ public class ItemView extends JPanel {
         g.drawString("Click refresh to see your item and check its price!", x, y);
 
     }
-    public void paint(Graphics g,String lastPrice, String price , String percent , String name) {
+    public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value) {
         super.paint(g); 
         //Dimension dim = getSize();
         
@@ -77,11 +77,20 @@ public class ItemView extends JPanel {
         //--
         int x = 20, y = 30;
         // g.drawImage(getImage("view.png"), x, y)
-        g.drawString(name, x, y);
-        y += 20;
         
+        g.drawString(name , x, y);
+        y += 20;
         g.drawString(lastPrice, x, y);
         y += 20;
+        if(value <0)
+        {
+            g.setColor(Color.RED);
+        	
+        }
+        else
+        {
+        	g.setColor(Color.GREEN);
+        }
         g.drawString(price, x, y);
         y += 20;
         g.drawString(percent, x, y);
