@@ -24,7 +24,7 @@ public class Main extends JFrame {
 	private Item product;
 	private PriceFinder price;
     /** Default dimension of the dialog. */
-    private final static Dimension DEFAULT_SIZE = new Dimension(400, 300);
+    private final static Dimension DEFAULT_SIZE = new Dimension(700, 600);
       
     /** Special panel to display the watched item. */
     private ItemView itemView;
@@ -69,9 +69,7 @@ public class Main extends JFrame {
      * Launch a (default) web browser by supplying the URL of
      * the item. */
     private void viewPageClicked() {    	
-    	//--
-    	//-- WRITE YOUR CODE HERE!
-    	//--
+    	
     	showMessage("View clicked!");
     }
         
@@ -87,7 +85,7 @@ public class Main extends JFrame {
         		BorderFactory.createLineBorder(Color.GRAY)));
         board.setLayout(new GridLayout(1,1));
         itemView = new ItemView();
-        itemView.setClickListener(this::viewPageClicked); //this needs fixed
+        itemView.setClickListener(this::viewPageClicked); 
         board.add(itemView);
         add(board, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));

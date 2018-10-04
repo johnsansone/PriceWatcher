@@ -1,13 +1,17 @@
 package pricewatchhw0;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.awt.Desktop;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -22,7 +26,8 @@ public class ItemView extends JPanel {
 		
 		/** Callback to be invoked when the view page icon is clicked. */
 		
-		//https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv
+		
+		
 		void clicked();
 	}
 	
@@ -39,6 +44,22 @@ public class ItemView extends JPanel {
             public void mouseClicked(MouseEvent e) {
             	if (isViewPageClicked(e.getX(), e.getY()) && listener != null) {
             		listener.clicked();
+            		if(Desktop.isDesktopSupported())
+            		{
+            			try {
+							Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (URISyntaxException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+            		}
+            		else
+            		{
+            			
+            		}
             	}
             }
         });
@@ -48,37 +69,31 @@ public class ItemView extends JPanel {
     public void setClickListener(ClickListener listener) {
     	this.listener = listener;
     }
-    public void refreshButtonClicked(float lastPrice, float price , float percent , String name)
-    {
-    	//will cause paint to repaint the screen
-    	
-    }
     
     /** Overridden here to display the details of the item. */
     @Override
 	public void paint(Graphics g) {
         super.paint(g); 
-        //Dimension dim = getSize();
+       
         
         //--
         //-- WRITE YOUR CODE HERE!
         //--
         int x = 20, y = 30;
-        g.drawImage(getImage("image.jpg"), x, y,this);
         g.drawString("Welcome to item manager!", x, y);
         y += 20;
         g.drawString("Click refresh to see your item and check its price!", x, y);
+        
 
     }
     public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value) {
         super.paint(g); 
-        //Dimension dim = getSize();
+        
         
         //--
         //-- WRITE YOUR CODE HERE!
         //--
         int x = 20, y = 30;
-        g.drawImage(getImage("image.jpg"), x, y,this);
         
         g.drawString(name , x, y);
         y += 20;
@@ -96,7 +111,8 @@ public class ItemView extends JPanel {
         g.drawString(price, x, y);
         y += 20;
         g.drawString(percent, x, y);
-        y += 20;
+        y += 40;
+        g.drawImage(getImage("image.jpg"), x, y,this);
 
     }
     
@@ -105,6 +121,22 @@ public class ItemView extends JPanel {
     	//--
     	//-- WRITE YOUR CODE HERE
     	//--
+		if(Desktop.isDesktopSupported())
+		{
+			try {
+				Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else
+		{
+			
+		}
     	return new Rectangle(20, 20, 30, 20).contains(x,  y);
     }
         

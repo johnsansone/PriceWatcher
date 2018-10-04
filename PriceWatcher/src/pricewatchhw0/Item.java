@@ -8,9 +8,9 @@ public class Item {
 	private String firstPrice ="";
 	private String currentPriceString = "";
 	private String percentString = "";
-	private String name = "TV";
-	private String url = "";
-	public String returnLastPrice()
+	private String name = "19IN 720p HDTV";
+	private String url = "https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv";
+	public String returnLastPrice() //returns
 	{
 		DecimalFormat df = new DecimalFormat("#.##");
 		firstPrice = df.format(lastPrice);
