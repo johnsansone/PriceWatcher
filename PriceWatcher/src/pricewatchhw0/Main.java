@@ -81,7 +81,7 @@ public class Main extends JFrame {
         		BorderFactory.createLineBorder(Color.GRAY)));
         board.setLayout(new GridLayout(1,1));
         itemView = new ItemView();
-        itemView.setClickListener(this::viewPageClicked);
+        //itemView.setClickListener(this::viewPageClicked); //this needs fixed
         board.add(itemView);
         add(board, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));
