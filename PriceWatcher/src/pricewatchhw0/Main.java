@@ -60,7 +60,8 @@ public class Main extends JFrame {
     	//-- WRITE YOUR CODE HERE!
     	//--
         product.setPrice(price.getNewPrice());
-    	
+        
+    	itemView.paint(itemView.getGraphics(), product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercent(),product.returnName());
     	showMessage("Refresh clicked!");
     }
     

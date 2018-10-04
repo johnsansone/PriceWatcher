@@ -26,7 +26,7 @@ public class ItemView extends JPanel {
 	
 	/** Directory for image files: src/image in Eclipse. */
 	private final static String IMAGE_DIR = "/image/";
-        
+    
 	/** View-page clicking listener. */
     private ClickListener listener;
     
@@ -46,6 +46,11 @@ public class ItemView extends JPanel {
     public void setClickListener(ClickListener listener) {
     	this.listener = listener;
     }
+    public void refreshButtonClicked(float lastPrice, float price , float percent , String name)
+    {
+    	//will cause paint to repaint the screen
+    	
+    }
     
     /** Overridden here to display the details of the item. */
     @Override
@@ -58,9 +63,29 @@ public class ItemView extends JPanel {
         //--
         int x = 20, y = 30;
         // g.drawImage(getImage("view.png"), x, y)
-        g.drawString("[View]", x, y);
+        g.drawString("Welcome to item manager!", x, y);
         y += 20;
-        g.drawString("Hi, I am your item!", x, y);
+        g.drawString("Click refresh to see your item and check its price!", x, y);
+
+    }
+    public void paint(Graphics g,float lastPrice, float price , float percent , String name) {
+        super.paint(g); 
+        //Dimension dim = getSize();
+        
+        //--
+        //-- WRITE YOUR CODE HERE!
+        //--
+        int x = 20, y = 30;
+        // g.drawImage(getImage("view.png"), x, y)
+        g.drawString(name, x, y);
+        y += 20;
+        
+        g.drawString(Float.toString(lastPrice), x, y);
+        y += 20;
+        g.drawString(Float.toString(price), x, y);
+        y += 20;
+        g.drawString(Float.toString(percent), x, y);
+        y += 20;
 
     }
     
