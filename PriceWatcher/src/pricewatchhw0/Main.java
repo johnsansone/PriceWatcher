@@ -21,7 +21,8 @@ import javax.swing.SwingUtilities;
 */
 @SuppressWarnings("serial")
 public class Main extends JFrame {
-
+	private Item product;
+	private PriceFinder price;
     /** Default dimension of the dialog. */
     private final static Dimension DEFAULT_SIZE = new Dimension(400, 300);
       
@@ -34,13 +35,15 @@ public class Main extends JFrame {
     /** Create a new dialog. */
     public Main() {
     	this(DEFAULT_SIZE);
+    	product = new Item();
+    	price = new PriceFinder();
+        product.setPrice(price.getNewPrice());
     }
     
     /** Create a new dialog of the given screen dimension. */
     public Main(Dimension dim) {
         super("Price Watcher");
         setSize(dim);
-        
         configureUI();
         //setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,6 +59,8 @@ public class Main extends JFrame {
     	//--
     	//-- WRITE YOUR CODE HERE!
     	//--
+        product.setPrice(price.getNewPrice());
+    	
     	showMessage("Refresh clicked!");
     }
     
