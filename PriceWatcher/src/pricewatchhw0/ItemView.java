@@ -1,7 +1,6 @@
 package pricewatchhw0;
 
 import java.awt.Color;
-
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -12,9 +11,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.awt.Desktop;
-
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
+
 
 /** A special panel to display the detail of an item. */
 
@@ -90,9 +91,7 @@ public class ItemView extends JPanel {
         super.paint(g); 
         
         
-        //--
-        //-- WRITE YOUR CODE HERE!
-        //--
+        // value is the value of the % so it is easy to tell if it is pos or neg
         int x = 20, y = 30;
         
         g.drawString(name , x, y);
@@ -101,12 +100,36 @@ public class ItemView extends JPanel {
         y += 20;
         if(value <0)
         {
-            g.setColor(Color.RED);
+            g.setColor(Color.RED); //changes color to red if it is neg
+        	try
+            {
+                Clip clip = AudioSystem.getClip();
+                URL url = new URL(getClass().getResource(IMAGE_DIR), "no.wav");
+                clip.open(AudioSystem.getAudioInputStream(url));
+                clip.start();
+                //pays audio file
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
         	
         }
         else
         {
-        	g.setColor(Color.GREEN);
+        	g.setColor(Color.GREEN); //changes color to green if it is pos
+        	try
+            {
+                Clip clip = AudioSystem.getClip();
+                URL url = new URL(getClass().getResource(IMAGE_DIR), "yes.wav");
+                clip.open(AudioSystem.getAudioInputStream(url));
+                clip.start();
+                //pays audio file
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
         }
         g.drawString(price, x, y);
         y += 20;
@@ -118,9 +141,7 @@ public class ItemView extends JPanel {
     
     /** Return true if the given screen coordinate is inside the viewPage icon. */
     private boolean isViewPageClicked(int x, int y) {
-    	//--
-    	//-- WRITE YOUR CODE HERE
-    	//--
+    	
 		if(Desktop.isDesktopSupported())
 		{
 			try {
