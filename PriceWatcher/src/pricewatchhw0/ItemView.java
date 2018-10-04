@@ -21,11 +21,13 @@ public class ItemView extends JPanel {
 	public interface ClickListener {
 		
 		/** Callback to be invoked when the view page icon is clicked. */
+		
+		//https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv
 		void clicked();
 	}
 	
 	/** Directory for image files: src/image in Eclipse. */
-	private final static String IMAGE_DIR = "/image/";
+	private final static String IMAGE_DIR = "image.jpg";
     
 	/** View-page clicking listener. */
     private ClickListener listener;
@@ -62,7 +64,7 @@ public class ItemView extends JPanel {
         //-- WRITE YOUR CODE HERE!
         //--
         int x = 20, y = 30;
-        // g.drawImage(getImage("view.png"), x, y)
+        g.drawImage(getImage("image.jpg"), x, y,this);
         g.drawString("Welcome to item manager!", x, y);
         y += 20;
         g.drawString("Click refresh to see your item and check its price!", x, y);
@@ -76,7 +78,7 @@ public class ItemView extends JPanel {
         //-- WRITE YOUR CODE HERE!
         //--
         int x = 20, y = 30;
-        // g.drawImage(getImage("view.png"), x, y)
+        g.drawImage(getImage("image.jpg"), x, y,this);
         
         g.drawString(name , x, y);
         y += 20;
