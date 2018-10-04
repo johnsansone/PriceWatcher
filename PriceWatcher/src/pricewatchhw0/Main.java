@@ -42,6 +42,7 @@ public class Main extends JFrame{
     public Main() {
     	this(DEFAULT_SIZE);
     }
+     
     
     /** Create a new dialog of the given screen dimension. */
     public Main(Dimension dim) {
