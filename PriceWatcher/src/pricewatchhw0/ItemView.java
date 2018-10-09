@@ -90,12 +90,17 @@ public class ItemView extends JPanel {
         
 
     }
+    public int drawclass(Graphics g,String tag, String data)
+    {
+    	
+    	return 1;
+    }
     public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value , String web) {
         super.paint(g); 
-        
+        //change drawimages into its own method 
         
         // value is the value of the % so it is easy to tell if it is pos or neg
-        int x = 20, y = 30;
+        int x = 20, y = 30;// change += 20 to a final varable that is = to 20
         y -=20;
         g.drawImage(getImage("arrow.jpg"), x, y,this);
         y += 60;
@@ -108,14 +113,14 @@ public class ItemView extends JPanel {
         g.drawString("Percentage Change : ", x, y);
         y -= 20;
         x += 80;
-        if(value <0)
+        if(value <0)// possibly make this its own method
         {
             g.setColor(Color.RED); //changes color to red if it is neg
         	try
             {
                 Clip clip = AudioSystem.getClip();
                 
-                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("no.wav")));
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("no.wav"))); //needs to be in its own method
                 clip.start();
                 
                
