@@ -9,8 +9,8 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.awt.Desktop;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -33,7 +33,6 @@ public class ItemView extends JPanel {
 	}
 	
 	/** Directory for image files: src/image in Eclipse. */
-	private final static String IMAGE_DIR = "image.jpg";
     
 	/** View-page clicking listener. */
     private ClickListener listener;
@@ -43,23 +42,27 @@ public class ItemView extends JPanel {
         setBackground(Color.WHITE);
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-            	if (isViewPageClicked(e.getX(), e.getY()) && listener != null) {
-            		listener.clicked();
-            		if(Desktop.isDesktopSupported())
+            	if(e.getX() <55 && e.getY() < 55 && e.getX() > 15 && e.getY() > 15){
+            	if (isViewPageClicked(e.getX(), e.getY()) && listener != null)// {
+            		//if(e.getX() <60 && e.getY() < 60)
             		{
-            			try {
-							Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (URISyntaxException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-            		}
-            		else
-            		{
+            			listener.clicked();
+            			if(Desktop.isDesktopSupported())
+            			{
+            				try {
+            					Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
+            				} catch (IOException e1) {
+            					// TODO Auto-generated catch block
+            					e1.printStackTrace();
+            				} catch (URISyntaxException e1) {
+            					// TODO Auto-generated catch block
+            					e1.printStackTrace();
+            				}
+            			}
+            			else
+            			{
             			
+            			}
             		}
             	}
             }
@@ -87,26 +90,35 @@ public class ItemView extends JPanel {
         
 
     }
-    public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value) {
+    public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value , String web) {
         super.paint(g); 
         
         
         // value is the value of the % so it is easy to tell if it is pos or neg
         int x = 20, y = 30;
-        
+        y -=20;
+        g.drawImage(getImage("arrow.jpg"), x, y,this);
+        y += 60;
         g.drawString(name , x, y);
         y += 20;
-        g.drawString(lastPrice, x, y);
+        g.drawString("First Price : "+lastPrice, x, y);
         y += 20;
+        g.drawString("Current Price : ", x, y);
+        y += 20;
+        g.drawString("Percentage Change : ", x, y);
+        y -= 20;
+        x += 80;
         if(value <0)
         {
             g.setColor(Color.RED); //changes color to red if it is neg
         	try
             {
                 Clip clip = AudioSystem.getClip();
-                URL url = new URL(getClass().getResource(IMAGE_DIR), "no.wav");
-                clip.open(AudioSystem.getAudioInputStream(url));
+                
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("no.wav")));
                 clip.start();
+                
+               
                 //pays audio file
             }
             catch (Exception exc)
@@ -121,8 +133,8 @@ public class ItemView extends JPanel {
         	try
             {
                 Clip clip = AudioSystem.getClip();
-                URL url = new URL(getClass().getResource(IMAGE_DIR), "yes.wav");
-                clip.open(AudioSystem.getAudioInputStream(url));
+                //URL url = new URL(getClass().getResource(IMAGE_DIR), "yes.wav");
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("yes.wav")));
                 clip.start();
                 //pays audio file
             }
@@ -133,8 +145,15 @@ public class ItemView extends JPanel {
         }
         g.drawString(price, x, y);
         y += 20;
+        x += 40;
         g.drawString(percent, x, y);
-        y += 40;
+        x -= 120;
+        y += 20;
+        g.setColor(Color.BLACK);
+        web = web.substring(0, 30);
+        web = web + "...";
+        g.drawString("URL : "+web, x, y);
+        y += 20;
         g.drawImage(getImage("image.jpg"), x, y,this);
 
     }
@@ -162,10 +181,11 @@ public class ItemView extends JPanel {
     }
         
     /** Return the image stored in the given file. */
+ 
     public Image getImage(String file) {
         try {
-        	URL url = new URL(getClass().getResource(IMAGE_DIR), file);
-            return ImageIO.read(url);
+        	//URL url = new URL(getClass().getClassLoader().getResourceAsStream(IMAGE_DIR), file);
+            return ImageIO.read(getClass().getClassLoader().getResourceAsStream(file));
         } catch (IOException e) {
             e.printStackTrace();
         }
