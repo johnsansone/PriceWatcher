@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,9 +22,7 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
 public class Main extends JFrame {
 	private Item product;
-	private PriceFinder price;
-	private ArrayList<Item> itemList = new ArrayList<Item>(1);
-    /** Default dimension of the dialog. */
+	private PriceFinder price;    /** Default dimension of the dialog. */
     private final static Dimension DEFAULT_SIZE = new Dimension(700, 600);
       
     /** Special panel to display the watched item. */
