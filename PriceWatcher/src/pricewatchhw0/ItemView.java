@@ -76,6 +76,7 @@ public class ItemView extends JPanel {
     
     /** Overridden here to display the details of the item. */
     @Override
+    /** displays first scrren*/
 	public void paint(Graphics g) {
         super.paint(g); 
        
@@ -95,6 +96,7 @@ public class ItemView extends JPanel {
     	
     	return 1;
     }
+    /** paints the graphics */
     public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value , String web) {
         super.paint(g); 
         //change drawimages into its own method 

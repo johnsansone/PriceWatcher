@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PriceFinder {
+	/** generates new price float formats it and returns it */
 	public float getNewPrice()
 	{
 		
