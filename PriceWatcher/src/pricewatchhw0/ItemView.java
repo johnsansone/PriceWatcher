@@ -96,12 +96,89 @@ public class ItemView extends JPanel {
     	
     	return 1;
     }
+    public void paint(Graphics g,Item product){
+    	String lastPrice = product.returnLastPrice();
+    	String price = product.returnCurrentPrice();
+    	String percent = product.returnPercentString();
+    	String name = product.returnName();
+    	float value = product.returnPercent();
+    	String web = product.returnURL();
+        super.paint(g); 
+        //change drawimages into its own method 
+        
+        // value is the value of the % so it is easy to tell if it is pos or neg
+        
+        int x = 20, y = 30;// change += 20 to a final varable that is = to 20
+        y -=20;
+        g.drawImage(getImage("arrow.jpg"), x, y,this);
+        y += 60;
+        g.drawString(name , x, y);
+        y += 20;
+        g.drawString("First Price : "+lastPrice, x, y);
+        y += 20;
+        g.drawString("Current Price : ", x, y);
+        y += 20;
+        g.drawString("Percentage Change : ", x, y);
+        y -= 20;
+        x += 80;
+        if(value <0)// possibly make this its own method
+        {
+            g.setColor(Color.RED); //changes color to red if it is neg
+        	try
+            {
+                Clip clip = AudioSystem.getClip();
+                
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("no.wav"))); //needs to be in its own method
+                clip.start();
+                
+               
+                //pays audio file
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
+        	
+        }
+        else
+        {
+        	g.setColor(Color.GREEN); //changes color to green if it is pos
+        	try
+            {
+                Clip clip = AudioSystem.getClip();
+                //URL url = new URL(getClass().getResource(IMAGE_DIR), "yes.wav");
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("yes.wav")));
+                clip.start();
+                //pays audio file
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
+        }
+        g.drawString(price, x, y);
+        y += 20;
+        x += 40;
+        g.drawString(percent, x, y);
+        x -= 120;
+        y += 20;
+        g.setColor(Color.BLACK);
+        web = web.substring(0, 30);
+        web = web + "...";
+        g.drawString("URL : "+web, x, y);
+        y += 20;
+        g.drawImage(getImage("image.jpg"), x, y,this);
+
+    }
     /** paints the graphics */
+    //String lastPrice, String price , String percent , String name , float value , String web) {
+    //product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercentString(),product.returnName(),product.returnPercent(),product.returnURL()
     public void paint(Graphics g,String lastPrice, String price , String percent , String name , float value , String web) {
         super.paint(g); 
         //change drawimages into its own method 
         
         // value is the value of the % so it is easy to tell if it is pos or neg
+        
         int x = 20, y = 30;// change += 20 to a final varable that is = to 20
         y -=20;
         g.drawImage(getImage("arrow.jpg"), x, y,this);

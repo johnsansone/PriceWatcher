@@ -8,7 +8,7 @@ public class PriceFinder {
 	public float getNewPrice()
 	{
 		
-		double rn = ThreadLocalRandom.current().nextDouble(0,1000);
+		double rn = ThreadLocalRandom.current().nextDouble(0,1000);//(min value, max value)
 		DecimalFormat df = new DecimalFormat("#.##");
 		float twoDig = Float.valueOf(df.format(rn));
 		return twoDig;
