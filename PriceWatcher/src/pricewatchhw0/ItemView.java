@@ -36,9 +36,13 @@ public class ItemView extends JPanel {
     
 	/** View-page clicking listener. */
     private ClickListener listener;
-    
+    private Item thisItem;
+    private Item product;
+    //private int id;
     /** Create a new instance. */
-    public ItemView() {
+    public ItemView(Item item) {
+    	thisItem =item;
+    	product = item;
         setBackground(Color.WHITE);
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -50,7 +54,8 @@ public class ItemView extends JPanel {
             			if(Desktop.isDesktopSupported())
             			{
             				try {
-            					Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
+            					Desktop.getDesktop().browse(new URI(thisItem.returnURL()));
+            					//Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
             				} catch (IOException e1) {
             					// TODO Auto-generated catch block
             					e1.printStackTrace();
@@ -84,19 +89,11 @@ public class ItemView extends JPanel {
         //--
         //-- WRITE YOUR CODE HERE!
         //--
-        int x = 20, y = 30;
-        g.drawString("Welcome to item manager!", x, y);
-        y += 20;
-        g.drawString("Click refresh to see your item and check its price!", x, y);
-        
+        //int x = 20, y = 30;
+        //g.drawString("Welcome to item manager!", x, y);
+        //y += 20;
+        //g.drawString("Click refresh to see your item and check its price!", x, y);
 
-    }
-    public int drawclass(Graphics g,String tag, String data)
-    {
-    	
-    	return 1;
-    }
-    public void paint(Graphics g,Item product){
     	String lastPrice = product.returnLastPrice();
     	String price = product.returnCurrentPrice();
     	String percent = product.returnPercentString();
@@ -167,7 +164,90 @@ public class ItemView extends JPanel {
         web = web + "...";
         g.drawString("URL : "+web, x, y);
         y += 20;
-        g.drawImage(getImage("image.jpg"), x, y,this);
+        //g.drawImage(getImage("image.jpg"), x, y,this);
+
+        
+
+    }
+    public int drawclass(Graphics g,String tag, String data)
+    {
+    	
+    	return 1;
+    }
+    public void paint(Graphics g,Item product){//,int newID){
+    	thisItem = product;
+    	//id = newID;
+    	String lastPrice = product.returnLastPrice();
+    	String price = product.returnCurrentPrice();
+    	String percent = product.returnPercentString();
+    	String name = product.returnName();
+    	float value = product.returnPercent();
+    	String web = product.returnURL();
+        super.paint(g); 
+        //change drawimages into its own method 
+        
+        // value is the value of the % so it is easy to tell if it is pos or neg
+        
+        int x = 20, y = 30;// change += 20 to a final varable that is = to 20
+        y -=20;
+        g.drawImage(getImage("arrow.jpg"), x, y,this);
+        y += 60;
+        g.drawString(name , x, y);
+        y += 20;
+        g.drawString("First Price : "+lastPrice, x, y);
+        y += 20;
+        g.drawString("Current Price : ", x, y);
+        y += 20;
+        g.drawString("Percentage Change : ", x, y);
+        y -= 20;
+        x += 80;
+        if(value <0)// possibly make this its own method
+        {
+            g.setColor(Color.RED); //changes color to red if it is neg
+        	try
+            {
+                Clip clip = AudioSystem.getClip();
+                
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("no.wav"))); //needs to be in its own method
+                clip.start();
+                
+               
+                //pays audio file
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
+        	
+        }
+        else
+        {
+        	g.setColor(Color.GREEN); //changes color to green if it is pos
+        	try
+            {
+                Clip clip = AudioSystem.getClip();
+                //URL url = new URL(getClass().getResource(IMAGE_DIR), "yes.wav");
+                clip.open(AudioSystem.getAudioInputStream(getClass().getResource("yes.wav")));
+                clip.start();
+                //pays audio file
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
+        }
+        g.drawString(price, x, y);
+        y += 20;
+        x += 40;
+        g.drawString(percent, x, y);
+        x -= 120;
+        y += 20;
+        g.setColor(Color.BLACK);
+        web = web.substring(0, 30);
+        web = web + "...";
+        g.drawString("URL : "+web, x, y);
+        y += 20;
+        //g.drawImage(getImage("image.jpg"), x, y,this);
 
     }
     /** paints the graphics */
@@ -238,7 +318,7 @@ public class ItemView extends JPanel {
         web = web + "...";
         g.drawString("URL : "+web, x, y);
         y += 20;
-        g.drawImage(getImage("image.jpg"), x, y,this);
+        //g.drawImage(getImage("image.jpg"), x, y,this);
 
     }
     

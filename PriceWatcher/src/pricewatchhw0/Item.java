@@ -1,6 +1,8 @@
 package pricewatchhw0;
 // create interface for item in item view 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /** */
 public class Item {
 	private float lastPrice = 0;
@@ -11,6 +13,7 @@ public class Item {
 	private String percentString = "";
 	private String name = "19IN 720p HDTV";
 	private String url = "https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv";
+	private String date;
 	/** returns the first price */
 	public String returnLastPrice() //returns
 	{
@@ -54,6 +57,16 @@ public class Item {
 	public String returnName()
 	{
 		return name;
+	}
+	public void setDate()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");    
+		Date resultdate = new Date(System.currentTimeMillis());
+		date = sdf.format(resultdate);
+	}
+	public String returnDate()
+	{
+		return date;
 	}
 	/** sets price from input of float */
 	public void setPrice(float price)

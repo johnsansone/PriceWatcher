@@ -6,12 +6,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -24,9 +28,12 @@ public class Main extends JFrame {
 	private Item product;
 	private PriceFinder price;    /** Default dimension of the dialog. */
     private final static Dimension DEFAULT_SIZE = new Dimension(700, 600);
-      
+    ItemView itemView2;
+    ItemList itemList;
+    ViewList viewList;
     /** Special panel to display the watched item. */
     private ItemView itemView;
+    private JPanel board;
       
     /** Message bar to display various messages. */
     private JLabel msgBar = new JLabel(" ");
@@ -34,9 +41,6 @@ public class Main extends JFrame {
     /** Create a new dialog. */
     public Main() {
     	this(DEFAULT_SIZE);
-    	product = new Item();
-    	price = new PriceFinder();
-        product.setPrice(price.getNewPrice());
     }
     
     /** Create a new dialog of the given screen dimension. */
@@ -59,7 +63,11 @@ public class Main extends JFrame {
     	//-- WRITE YOUR CODE HERE!
     	//--
         product.setPrice(price.getNewPrice());
-        itemView.paint(itemView.getGraphics(), product);
+        viewList.returnItem(0).paint(viewList.returnItem(0).getGraphics(), product);
+        //itemView.paint(itemView.getGraphics(), product);//,1);
+        product.setPrice(price.getNewPrice());
+        viewList.returnItem(1).paint(viewList.returnItem(1).getGraphics(), product);
+        //itemView2.paint(itemView2.getGraphics(), product);//,1);
     	//itemView.paint(itemView.getGraphics(), product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercentString(),product.returnName(),product.returnPercent(),product.returnURL());
     	showMessage("Refresh clicked!");
     }
@@ -74,21 +82,37 @@ public class Main extends JFrame {
         
     /** Configure UI. */
     private void configureUI() {
+    	product = new Item();
+    	price = new PriceFinder();
+        product.setPrice(price.getNewPrice());
+        viewList = new ViewList();
         setLayout(new BorderLayout());
         JPanel control = makeControlPanel();
         control.setBorder(BorderFactory.createEmptyBorder(10,16,0,16)); 
         add(control, BorderLayout.NORTH);
-        JPanel board = new JPanel();
+        board = new JPanel();
         board.setBorder(BorderFactory.createCompoundBorder(
         		BorderFactory.createEmptyBorder(10,16,0,16),
         		BorderFactory.createLineBorder(Color.GRAY)));
-        board.setLayout(new GridLayout(1,1));
-        itemView = new ItemView();
+        board.setLayout(new BoxLayout(board, BoxLayout.Y_AXIS));
+        itemView = new ItemView(product);
+        viewList.addItem(itemView);
+        
         itemView.setClickListener(this::viewPageClicked); 
+        itemView.setPreferredSize(new Dimension(300, 200));
+        itemView2 = new ItemView(product);
+        viewList.addItem(itemView2);
+        itemView2.setPreferredSize(new Dimension(300, 200));
         board.add(itemView);
-        add(board, BorderLayout.CENTER);
+        board.add(itemView2);
+        JScrollPane scroll = new JScrollPane(board);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        add(scroll, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));
         add(msgBar, BorderLayout.SOUTH);
+        //itemView.paint(itemView.getGraphics(), product,1);
+        //itemView2.paint(itemView2.getGraphics(), product,1);
+        pack();
     }
       
     /** Create a control panel consisting of a refresh button. */
