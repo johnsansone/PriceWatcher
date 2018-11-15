@@ -15,7 +15,6 @@ public class ItemList {
 	public void addItem(Item item)
 	{
 		int size = itemList.size();
-		//Item temp = new Item();
 		if(size ==1 && itemList.isEmpty())
 		{
 			itemList.add(item);

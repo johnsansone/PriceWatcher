@@ -59,25 +59,21 @@ public class Main extends JFrame {
      * Find the current price of the watched item and display it 
      * along with a percentage price change. */
     private void refreshButtonClicked(ActionEvent event) {
-    	//--
-    	//-- WRITE YOUR CODE HERE!
-    	//--
-    	/*
-        product.setPrice(price.getNewPrice());
-        viewList.returnItem(0).paint(viewList.returnItem(0).getGraphics(), product);
-        //itemView.paint(itemView.getGraphics(), product);//,1);
-        product.setPrice(price.getNewPrice());
-        viewList.returnItem(1).paint(viewList.returnItem(1).getGraphics(), product);
-        //itemView2.paint(itemView2.getGraphics(), product);//,1);*/
-    	//itemView.paint(itemView.getGraphics(), product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercentString(),product.returnName(),product.returnPercent(),product.returnURL());
+    	
     	int size = viewList.getSize();
-    	for(int i = 0;i < size; i++)
+    	for(int i = 0;i < size; ++i)
     	{
 
-            product.setPrice(price.getNewPrice());
-            viewList.returnItem(i).paint(viewList.returnItem(0).getGraphics(), product);
+    		itemList.returnItem(i).setPrice(price.getNewPrice());
+            //viewList.returnItem(i).paint(viewList.returnItem(i).getGraphics());//, itemList.returnItem(i));
+    		viewList.returnItem(i).re(viewList.returnItem(i).getGraphics());
     	}
         showMessage("Refresh clicked!");
+    }
+    private void addItem(ActionEvent event) {
+    	
+    	//bring up method that creates item
+    	showMessage("Add Item clicked!");
     }
     
     /** Callback to be invoked when the view-page icon is clicked.
@@ -90,13 +86,24 @@ public class Main extends JFrame {
         
     private void addItem()
     {
+    	int size = viewList.getSize();
+        itemList.addItem(new Item());
+        itemList.returnItem(size).setPrice(price.getNewPrice());
+        viewList.addItem(new ItemView(itemList.returnItem(size)));
+        viewList.returnItem(size).setPreferredSize(new Dimension(300, 200));
+        viewList.returnItem(size).setClickListener(this::viewPageClicked); 
+        board.add(viewList.returnItem(size));
     	
     }
     /** Configure UI. */
     private void configureUI() {
     	product = new Item();
     	price = new PriceFinder();
-        product.setPrice(price.getNewPrice());
+        itemList = new ItemList();
+
+        //itemList.addItem(new Item());
+        //itemList.returnItem(0).setPrice(price.getNewPrice());
+        
         viewList = new ViewList();
         setLayout(new BorderLayout());
         JPanel control = makeControlPanel();
@@ -107,24 +114,15 @@ public class Main extends JFrame {
         		BorderFactory.createEmptyBorder(10,16,0,16),
         		BorderFactory.createLineBorder(Color.GRAY)));
         board.setLayout(new BoxLayout(board, BoxLayout.Y_AXIS));
-        itemView = new ItemView(product);
-        viewList.addItem(itemView);
-        
-        viewList.returnItem(0).setClickListener(this::viewPageClicked); 
-        viewList.returnItem(0).setPreferredSize(new Dimension(300, 200));
-        itemView = new ItemView(product);
-        viewList.addItem(itemView);
-        viewList.returnItem(1).setPreferredSize(new Dimension(300, 200));
-        viewList.returnItem(1).setClickListener(this::viewPageClicked); 
-        board.add(viewList.returnItem(0));
-        board.add(viewList.returnItem(1));
+        addItem();
+        addItem();
+        addItem();
+        addItem();
         JScrollPane scroll = new JScrollPane(board);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
         add(scroll, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));
         add(msgBar, BorderLayout.SOUTH);
-        //itemView.paint(itemView.getGraphics(), product,1);
-        //itemView2.paint(itemView2.getGraphics(), product,1);
         pack();
     }
       
