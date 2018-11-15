@@ -46,10 +46,11 @@ public class ViewList {
 		}
 		
 	}
+	/*
 	public ArrayList returnList()
 	{
 		return itemList;
-	}
+	}*/
 	public boolean deleteItem(ItemView item)
 	{
 		int i = itemList.indexOf(item);

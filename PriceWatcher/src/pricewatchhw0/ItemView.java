@@ -31,21 +31,49 @@ public class ItemView extends JPanel {
 	/** Directory for image files: src/image in Eclipse. */
 	/** View-page clicking listener. */
     private ClickListener listener;
-    private Item thisItem;
     private Item product;
+    int isClicked = 0;
     //private int id;
     /** Create a new instance. */
     public ItemView(Item item) {
-    	thisItem =item;
     	product = item;
         setBackground(Color.WHITE);
+    	
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+            	listener.clicked();
+            	if(isClicked == 0)
+            	{
+            		setBackground(Color.GRAY);
+            		isClicked = 1;
+            	}
+            	else
+            	{
+            		setBackground(Color.WHITE);
+            		isClicked = 0;
+            	}
             	if(e.getX() <55 && e.getY() < 55 && e.getX() > 15 && e.getY() > 15){
             	if (isViewPageClicked(e.getX(), e.getY()) && listener != null)// {
             		//if(e.getX() <60 && e.getY() < 60)
             		{
-            			listener.clicked();
+
+            		if(Desktop.isDesktopSupported())
+            		{
+            			try {
+            				Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
+            			} catch (IOException e1) {
+            				// TODO Auto-generated catch block
+            				e1.printStackTrace();
+            			} catch (URISyntaxException e1) {
+            				// TODO Auto-generated catch block
+            				e1.printStackTrace();
+            			}
+            		}
+            		else
+            		{
+            			
+            		}
+            			
             		}
             	}
             }
@@ -108,7 +136,7 @@ public class ItemView extends JPanel {
     /** paints the graphics */
 	public void paint(Graphics g) {
         super.paint(g); 
-        super.paint(g); 
+        //super.paint(g); 
         int x = 20, y = 30;// change += 20 to a final varable that is = to 20
         y -=20;
         g.drawImage(getImage("arrow.jpg"), x, y,this);
@@ -145,24 +173,12 @@ public class ItemView extends JPanel {
     }
     /** Return true if the given screen coordinate is inside the viewPage icon. */
     private boolean isViewPageClicked(int x, int y) {
-    	
-		if(Desktop.isDesktopSupported())
-		{
-			try {
-				Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (URISyntaxException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		else
-		{
-			
-		}
     	return new Rectangle(20, 20, 30, 20).contains(x,  y);
+    }
+    public int returnisClicked()
+    {
+    	return isClicked;
+    	
     }
         
     /** Return the image stored in the given file. */

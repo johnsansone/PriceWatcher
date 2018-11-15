@@ -44,10 +44,11 @@ public class ItemList {
 		}
 		
 	}
+	/*
 	public ArrayList returnList()
 	{
 		return itemList;
-	}
+	}*/
 	public boolean deleteItem(Item item)
 	{
 		int i = itemList.indexOf(item);

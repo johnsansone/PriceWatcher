@@ -2,18 +2,19 @@ package pricewatchhw0;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -25,14 +26,12 @@ import javax.swing.SwingUtilities;
 */
 @SuppressWarnings("serial")
 public class Main extends JFrame {
-	private Item product;
 	private PriceFinder price;    /** Default dimension of the dialog. */
     private final static Dimension DEFAULT_SIZE = new Dimension(700, 600);
     ItemView itemView2;
     ItemList itemList;
     ViewList viewList;
     /** Special panel to display the watched item. */
-    private ItemView itemView;
     private JPanel board;
       
     /** Message bar to display various messages. */
@@ -70,17 +69,24 @@ public class Main extends JFrame {
     	}
         showMessage("Refresh clicked!");
     }
-    private void addItem(ActionEvent event) {
+    @SuppressWarnings("unused")
+	private void addItemClicked(ActionEvent event) {
     	
     	//bring up method that creates item
     	showMessage("Add Item clicked!");
+    }
+	private void RemoveItemClicked(ActionEvent event) {
+    	removeClickedItems();
+    	//bring up method that creates item
+    	showMessage("Remove Item clicked!");
     }
     
     /** Callback to be invoked when the view-page icon is clicked.
      * Launch a (default) web browser by supplying the URL of
      * the item. */
     private void viewPageClicked() {    	
-    	
+
+		
     	showMessage("View clicked!");
     }
         
@@ -95,9 +101,28 @@ public class Main extends JFrame {
         board.add(viewList.returnItem(size));
     	
     }
+    private void removeClickedItems()
+    {
+    	
+    	int size = viewList.getSize();
+    	for(int i = 0;i < size; i++)
+    	{
+    		if(viewList.returnItem(i).returnisClicked() > 0)
+    		{
+    			board.remove(viewList.returnItem(i));
+        		itemList.deleteItem(i);
+                
+        		viewList.deleteItem(i);
+    			i--;
+    			size--;
+    			pack();
+    		}
+    	}
+    }
+    
     /** Configure UI. */
     private void configureUI() {
-    	product = new Item();
+    	new Item();
     	price = new PriceFinder();
         itemList = new ItemList();
 
@@ -107,13 +132,18 @@ public class Main extends JFrame {
         viewList = new ViewList();
         setLayout(new BorderLayout());
         JPanel control = makeControlPanel();
+
+        //control.setBackground(Color.BLACK);
+        control.setOpaque(false);  
         control.setBorder(BorderFactory.createEmptyBorder(10,16,0,16)); 
         add(control, BorderLayout.NORTH);
         board = new JPanel();
+        board.setOpaque(false);
         board.setBorder(BorderFactory.createCompoundBorder(
         		BorderFactory.createEmptyBorder(10,16,0,16),
         		BorderFactory.createLineBorder(Color.GRAY)));
         board.setLayout(new BoxLayout(board, BoxLayout.Y_AXIS));
+        
         addItem();
         addItem();
         addItem();
@@ -130,9 +160,12 @@ public class Main extends JFrame {
     private JPanel makeControlPanel() {
     	JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
     	JButton refreshButton = new JButton("Refresh");
+    	JButton removeButton = new JButton("Remove");
     	refreshButton.setFocusPainted(false);
         refreshButton.addActionListener(this::refreshButtonClicked);
+        removeButton.addActionListener(this::RemoveItemClicked);
         panel.add(refreshButton);
+        panel.add(removeButton);
         return panel;
     }
 
