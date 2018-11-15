@@ -60,7 +60,7 @@ public class ItemView extends JPanel {
             		if(Desktop.isDesktopSupported())
             		{
             			try {
-            				Desktop.getDesktop().browse(new URI("https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv"));
+            				Desktop.getDesktop().browse(new URI(product.returnURL()));
             			} catch (IOException e1) {
             				// TODO Auto-generated catch block
             				e1.printStackTrace();
@@ -167,7 +167,7 @@ public class ItemView extends JPanel {
         x -= 120;
         y += 20;
         g.setColor(Color.BLACK);
-        g.drawString("URL : "+product.returnURL().substring(0, 30)+"...", x, y);
+        g.drawString("URL : "+product.returnURL()+"...", x, y);
         y += 20;
         g.drawString("DATE : "+product.returnDate(), x, y);
     }
@@ -180,12 +180,32 @@ public class ItemView extends JPanel {
     	return isClicked;
     	
     }
+    public void openURL()
+    {
+
+		if(Desktop.isDesktopSupported())
+		{
+			try {
+				Desktop.getDesktop().browse(new URI(product.returnURL()));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else
+		{
+			
+		}
+    }
         
     /** Return the image stored in the given file. */
  
     public Image getImage(String file) {
         try {
-        	//URL url = new URL(getClass().getClassLoader().getResourceAsStream(IMAGE_DIR), file);
+        	
             return ImageIO.read(getClass().getClassLoader().getResourceAsStream(file));
         } catch (IOException e) {
             e.printStackTrace();

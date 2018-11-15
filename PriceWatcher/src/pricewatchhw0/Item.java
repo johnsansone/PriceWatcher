@@ -88,6 +88,15 @@ public class Item {
 		
 	}
 	/** returns string of url */
+
+	public void setName(String newName)
+	{
+		name = newName;
+	}
+	public void setURL(String newURL)
+	{
+		url = newURL;
+	}
 	public String returnURL()
 	{
 		return url;
