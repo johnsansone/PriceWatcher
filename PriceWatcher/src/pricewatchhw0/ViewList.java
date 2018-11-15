@@ -2,17 +2,18 @@ package pricewatchhw0;
 
 import java.util.ArrayList;
 
-public class ItemList {
+public class ViewList {
 	// ref: https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
-	private ArrayList<Item> itemList = new ArrayList<Item>(1);
+	private ArrayList<ItemView> itemList = new ArrayList<ItemView>(1);
 
 //a class for the list of items
-	public ItemList() {
+	public ViewList() {
 		
 		// TODO Auto-generated constructor stub
 	}
 	/**  */
-	public void addItem(Item item)
+	
+	public void addItem(ItemView item)
 	{
 		int size = itemList.size();
 		//Item temp = new Item();
@@ -34,7 +35,7 @@ public class ItemList {
 		return size;
 		
 	}
-	public Item returnItem(int i)
+	public ItemView returnItem(int i)
 	{
 		try {
 		    return itemList.get(i);
@@ -49,7 +50,7 @@ public class ItemList {
 	{
 		return itemList;
 	}
-	public boolean deleteItem(Item item)
+	public boolean deleteItem(ItemView item)
 	{
 		int i = itemList.indexOf(item);
 		if(i == -1)
@@ -57,6 +58,15 @@ public class ItemList {
 			return false;
 		}
 		itemList.remove(i);
+		return true;
+	}
+	public boolean doesItemExist(ItemView item)
+	{
+		int i = itemList.indexOf(item);
+		if(i == -1)
+		{
+			return false;
+		}
 		return true;
 	}
 	public boolean deleteItem(int i)

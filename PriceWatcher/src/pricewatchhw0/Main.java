@@ -62,14 +62,22 @@ public class Main extends JFrame {
     	//--
     	//-- WRITE YOUR CODE HERE!
     	//--
+    	/*
         product.setPrice(price.getNewPrice());
         viewList.returnItem(0).paint(viewList.returnItem(0).getGraphics(), product);
         //itemView.paint(itemView.getGraphics(), product);//,1);
         product.setPrice(price.getNewPrice());
         viewList.returnItem(1).paint(viewList.returnItem(1).getGraphics(), product);
-        //itemView2.paint(itemView2.getGraphics(), product);//,1);
+        //itemView2.paint(itemView2.getGraphics(), product);//,1);*/
     	//itemView.paint(itemView.getGraphics(), product.returnLastPrice(),product.returnCurrentPrice(),product.returnPercentString(),product.returnName(),product.returnPercent(),product.returnURL());
-    	showMessage("Refresh clicked!");
+    	int size = viewList.getSize();
+    	for(int i = 0;i < size; i++)
+    	{
+
+            product.setPrice(price.getNewPrice());
+            viewList.returnItem(i).paint(viewList.returnItem(0).getGraphics(), product);
+    	}
+        showMessage("Refresh clicked!");
     }
     
     /** Callback to be invoked when the view-page icon is clicked.
@@ -80,6 +88,10 @@ public class Main extends JFrame {
     	showMessage("View clicked!");
     }
         
+    private void addItem()
+    {
+    	
+    }
     /** Configure UI. */
     private void configureUI() {
     	product = new Item();
@@ -98,13 +110,14 @@ public class Main extends JFrame {
         itemView = new ItemView(product);
         viewList.addItem(itemView);
         
-        itemView.setClickListener(this::viewPageClicked); 
-        itemView.setPreferredSize(new Dimension(300, 200));
-        itemView2 = new ItemView(product);
-        viewList.addItem(itemView2);
-        itemView2.setPreferredSize(new Dimension(300, 200));
-        board.add(itemView);
-        board.add(itemView2);
+        viewList.returnItem(0).setClickListener(this::viewPageClicked); 
+        viewList.returnItem(0).setPreferredSize(new Dimension(300, 200));
+        itemView = new ItemView(product);
+        viewList.addItem(itemView);
+        viewList.returnItem(1).setPreferredSize(new Dimension(300, 200));
+        viewList.returnItem(1).setClickListener(this::viewPageClicked); 
+        board.add(viewList.returnItem(0));
+        board.add(viewList.returnItem(1));
         JScrollPane scroll = new JScrollPane(board);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
         add(scroll, BorderLayout.CENTER);
