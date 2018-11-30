@@ -19,9 +19,18 @@ import javax.swing.JPanel;
 
 /** A special panel to display the detail of an item. */
 
-@SuppressWarnings("serial")
+
 public class ItemView extends JPanel {
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3310899902362172734L;
+
+	/**
+	 * 
+	 */
+
 	/** Interface to notify a click on the view page icon. */
 	public interface ClickListener {
 		

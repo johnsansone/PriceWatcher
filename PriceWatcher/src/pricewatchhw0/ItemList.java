@@ -1,8 +1,13 @@
 package pricewatchhw0;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ItemList {
+public class ItemList implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// ref: https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
 	private ArrayList<Item> itemList = new ArrayList<Item>(1);
 

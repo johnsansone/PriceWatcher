@@ -58,7 +58,7 @@ public class inOut {
 		try {
 
 		    //Write Student array to file.
-		    FileOutputStream fos = new FileOutputStream("students.ser");
+		    FileOutputStream fos = new FileOutputStream("ViewList.ser",false);
 		    ObjectOutputStream oos = new ObjectOutputStream(fos);
 		    oos.writeObject(viewlist);
 		    oos.close();
@@ -76,7 +76,7 @@ public class inOut {
 		try {
 
 		    //Write Student array to file.
-		    FileOutputStream fos = new FileOutputStream("students.ser");
+		    FileOutputStream fos = new FileOutputStream("ItemList.ser",false);
 		    ObjectOutputStream oos = new ObjectOutputStream(fos);
 		    oos.writeObject(itemlist);
 		    oos.close();
