@@ -1,8 +1,16 @@
 package pricewatchhw0;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ViewList {
+public class ViewList implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	// ref: https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
 	private ArrayList<ItemView> itemList = new ArrayList<ItemView>(1);
 
@@ -80,6 +88,9 @@ public class ViewList {
 			return false;
 		}
 		return true;
+		
+	}
+	public void load(){
 		
 	}
 /*

@@ -126,6 +126,7 @@ public class Main extends JFrame {
         
     private void addItem()
     {
+    	//JOptionPane.createDialog
     	JDialog dialog = null;
         JOptionPane optionPane = new JOptionPane();
         optionPane.setMessage("Add An Iten To The List ");
@@ -152,7 +153,7 @@ public class Main extends JFrame {
         panel.add(remove);
 
         optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
-        optionPane.add(panel,1);
+        //optionPane.add(panel,1);
         dialog = optionPane.createDialog(null, "ADD");
         dialog.setVisible(true);
         
@@ -272,7 +273,7 @@ public class Main extends JFrame {
         //control.setBackground(Color.BLACK);
         control.setOpaque(false);  
         control.setBorder(BorderFactory.createEmptyBorder(10,16,0,16)); 
-        add(control, BorderLayout.NORTH);
+        //add(control, BorderLayout.NORTH);
         board = new JPanel();
         board.setOpaque(false);
         board.setBorder(BorderFactory.createCompoundBorder(
@@ -334,6 +335,19 @@ public class Main extends JFrame {
             //    }
            // }
         });
+        pack();
+        for(int i = 0;viewList.getSize() > i ; i++)
+        {
+        	if(viewList.returnItem(i)==null)
+        	{
+        		
+        	}
+        	else
+        	{
+            	board.add(viewList.returnItem(i));
+        		
+        	}
+        }
         pack();
     }
 
@@ -405,7 +419,7 @@ class QMenuListener implements MenuListener {
 		
 	}
 }
-    
+	
     /** Create a control panel consisting of a refresh button. */
     private JPanel makeControlPanel() {
     	JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
@@ -429,7 +443,7 @@ class QMenuListener implements MenuListener {
         menubar.add(fileMenu3);
         
         setJMenuBar(menubar);
-        panel.add(menubar);
+        //panel.add(menubar);
     	JButton refreshButton = new JButton("Refresh");
     	JButton removeButton = new JButton("Remove");
     	JButton addButton = new JButton("Add");

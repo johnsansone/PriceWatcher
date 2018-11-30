@@ -134,8 +134,8 @@ public class ItemView extends JPanel {
     /** Overridden here to display the details of the item. */
     @Override
     /** paints the graphics */
-	public void paint(Graphics g) {
-        super.paint(g); 
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g); 
         //super.paint(g); 
         int x = 20, y = 30;// change += 20 to a final varable that is = to 20
         y -=20;
@@ -170,7 +170,8 @@ public class ItemView extends JPanel {
         g.drawString("URL : "+product.returnURL()+"...", x, y);
         y += 20;
         g.drawString("DATE : "+product.returnDate(), x, y);
-    }
+        g.dispose();    
+        }
     /** Return true if the given screen coordinate is inside the viewPage icon. */
     private boolean isViewPageClicked(int x, int y) {
     	return new Rectangle(20, 20, 30, 20).contains(x,  y);
