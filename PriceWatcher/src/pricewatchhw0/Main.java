@@ -16,6 +16,8 @@ import java.io.IOException;
 //import java.net.URI;
 //import java.net.URISyntaxException;
 
+
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -50,6 +52,7 @@ public class Main extends JFrame {
     ItemView itemView2;
     ItemList itemList;
     ViewList viewList;
+    inOut file;
     /** Special panel to display the watched item. */
     private JPanel board;
       
@@ -153,7 +156,7 @@ public class Main extends JFrame {
         panel.add(remove);
 
         optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
-        //optionPane.add(panel,1);
+        optionPane.add(panel,1);
         dialog = optionPane.createDialog(null, "ADD");
         dialog.setVisible(true);
         
@@ -175,7 +178,20 @@ public class Main extends JFrame {
         viewList.returnItem(size).setClickListener(this::viewPageClicked); 
         board.add(viewList.returnItem(size));
         refreshButtonClicked();
+        try {
+			file.saveItemToFile(itemList);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+			file.saveListToFile(viewList);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
     }
+    
     private void removeClickedItems()
     {
     	
@@ -196,6 +212,7 @@ public class Main extends JFrame {
     
     /** Configure UI. */
     private void configureUI() {
+    	file = new inOut();
     	new Item();
     	price = new PriceFinder();
         itemList = new ItemList();

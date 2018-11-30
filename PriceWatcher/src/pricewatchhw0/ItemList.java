@@ -7,7 +7,10 @@ public class ItemList implements Serializable  {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5647073178334177751L;
+	/**
+	 * 
+	 */
 	// ref: https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
 	private ArrayList<Item> itemList = new ArrayList<Item>(1);
 

@@ -7,7 +7,10 @@ public class ViewList implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7441438264924302822L;
+	/**
+	 * 
+	 */
 	/**
 	 * 
 	 */

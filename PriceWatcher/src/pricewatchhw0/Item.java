@@ -1,10 +1,15 @@
 package pricewatchhw0;
 // create interface for item in item view 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /** */
-public class Item {
+public class Item implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -664831671178259193L;
 	private float lastPrice = 0;
 	private float currentPrice = 0;
 	private float percent = 0;

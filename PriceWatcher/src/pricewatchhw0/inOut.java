@@ -12,13 +12,13 @@ public class inOut {
 	public inOut() {
 		// TODO Auto-generated constructor stub
 	}
-	public ViewList[] loadListFromFile() throws ClassNotFoundException
+	public ViewList loadListFromFile() throws ClassNotFoundException
 	{
 		try {
 
-		    FileInputStream fis = new FileInputStream("students.ser");
+		    FileInputStream fis = new FileInputStream("ViewList.ser");
 		    ObjectInputStream ois = new ObjectInputStream(fis);
-		    ViewList[] viewlist = (ViewList[]) ois.readObject();
+		    ViewList viewlist = (ViewList) ois.readObject();
 		    ois.close();
 			return viewlist;
 
@@ -32,13 +32,13 @@ public class inOut {
 		return null;
 		
 	}
-	public ItemList[] loadItemFromFile() throws ClassNotFoundException
+	public ItemList loadItemFromFile() throws ClassNotFoundException
 	{
 		try {
 
-		    FileInputStream fis = new FileInputStream("students.ser");
+		    FileInputStream fis = new FileInputStream("ItemList.ser");
 		    ObjectInputStream ois = new ObjectInputStream(fis);
-		    ItemList[] itemlist = (ItemList[]) ois.readObject();
+		    ItemList itemlist = (ItemList) ois.readObject();
 		    ois.close();
 			return itemlist;
 
@@ -52,7 +52,7 @@ public class inOut {
 		return null;
 		
 	}
-	public void saveListToFile(ViewList[] viewlist) throws ClassNotFoundException
+	public void saveListToFile(ViewList viewlist) throws ClassNotFoundException
 	{
 
 		try {
@@ -70,7 +70,7 @@ public class inOut {
 		    e.printStackTrace();
 		}
 	}
-	public void saveItemToFile(ItemList[] itemlist) throws ClassNotFoundException
+	public void saveItemToFile(ItemList itemlist) throws ClassNotFoundException
 	{
 
 		try {
