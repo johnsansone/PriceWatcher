@@ -1,9 +1,15 @@
 package pricewatchhw0;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PriceFinder {
+public class PriceFinder implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4412669004686236287L;
+
 	/** generates new price float formats it and returns it */
 	public float getNewPrice()
 	{

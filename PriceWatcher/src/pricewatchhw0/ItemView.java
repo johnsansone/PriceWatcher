@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.awt.Desktop;
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
 /** A special panel to display the detail of an item. */
 
 
-public class ItemView extends JPanel {
+public class ItemView extends JPanel implements Serializable {
     
 	/**
 	 * 
