@@ -2,20 +2,30 @@ package pricewatchhw0;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.awt.Desktop;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 /** A special panel to display the detail of an item. */
@@ -38,6 +48,86 @@ public class ItemView extends JPanel implements Serializable {
 		/** Callback to be invoked when the view page icon is clicked. */
 		void clicked();
 	}
+    JTextField textFieldedit;
+    JTextField textFieldedit2;
+    JFrame editwindow;
+
+	private void addEditClicked(ActionEvent event) {
+		try {
+            URL url = new URL(textFieldedit2.getText());
+            URLConnection conn = url.openConnection();
+            conn.connect();
+
+            if((textFieldedit2.getText().contains("bestbuy"))||(textFieldedit2.getText().contains("walmart"))||(textFieldedit2.getText().contains("target")))
+            {
+            	product.setName(textFieldedit.getText());
+            	product.setURL(textFieldedit2.getText());
+        
+            	paintComponent(this.getGraphics());
+	    
+            	editwindow.dispose(); 
+            }
+            else
+            {
+            	JOptionPane.showMessageDialog(null,"This URL will not work as this website is not supported enter another please");
+        	
+            	
+            }
+        } catch (MalformedURLException e) {
+        	JOptionPane.showMessageDialog(null,"This URL will not work as something is wrong with it enter another please");
+        	return;
+        } catch (IOException e) {
+            // the connection couldn't be established
+        }
+		
+	}
+
+	private void cancleClicked(ActionEvent event) {
+
+		editwindow.dispose(); 
+	}
+    public void edit(Item item)
+    {
+    	if(isClicked == 1)
+		{
+    	editwindow = new JFrame();
+
+    	editwindow = new JFrame("Edit Menu");
+    	editwindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5,5));
+        //JPanel panel2 = new JPanel();
+        panel.add(new JLabel("Item Name"));
+        textFieldedit = new JTextField(10);
+        
+        panel.add(textFieldedit);
+        
+        textFieldedit.setText(item.returnName());
+        JButton refresh = new JButton("Change");
+        refresh.addActionListener(this::addEditClicked);
+
+        //JPanel panel3 = new JPanel();
+        panel.add(new JLabel("URL"));
+        textFieldedit2 = new JTextField(10);
+        textFieldedit2.setText(item.returnURL());
+        panel.add(textFieldedit2);
+        JButton remove = new JButton("Cancel");
+        remove.addActionListener(this::cancleClicked);
+
+
+        panel.add(refresh);
+        panel.add(remove);
+
+        //optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
+        //optionPane.add(panel,1);
+        //dialog = optionPane.createDialog(null, "ADD");
+        editwindow.add(panel);
+        editwindow.pack();
+        editwindow.setVisible(true);
+		}
+    }
 	/** Directory for image files: src/image in Eclipse. */
 	/** View-page clicking listener. */
     private ClickListener listener;
@@ -153,9 +243,9 @@ public class ItemView extends JPanel implements Serializable {
         y += 60;
         g.drawString(product.returnName() , x, y);
         y += 20;
-        g.drawString("First Price : "+product.returnLastPrice(), x, y);
+        g.drawString("First Price :       $"+product.returnLastPrice(), x, y);
         y += 20;
-        g.drawString("Current Price : ", x, y);
+        g.drawString("Current Price :     ", x, y);
         y += 20;
         g.drawString("Percentage Change : ", x, y);
         y -= 20;
@@ -170,16 +260,16 @@ public class ItemView extends JPanel implements Serializable {
             g.setColor(Color.RED); //changes color to red if it is neg
             
         }
-        g.drawString( product.returnCurrentPrice(), x, y);
+        g.drawString("$"+ product.returnCurrentPrice(), x, y);
         y += 20;
         x += 40;
         g.drawString(product.returnPercentString(), x, y);
         x -= 120;
         y += 20;
         g.setColor(Color.BLACK);
-        g.drawString("URL : "+product.returnURL()+"...", x, y);
+        g.drawString("URL :                "+product.returnURL()+"...", x, y);
         y += 20;
-        g.drawString("DATE : "+product.returnDate(), x, y);
+        g.drawString("DATE :              "+product.returnDate(), x, y);
         g.dispose();    
         }
     /** Return true if the given screen coordinate is inside the viewPage icon. */

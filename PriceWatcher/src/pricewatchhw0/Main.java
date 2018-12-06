@@ -18,10 +18,16 @@ import java.io.IOException;
 
 
 
+
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -31,6 +37,7 @@ import javax.swing.JMenuBar;
 //import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 //import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -47,12 +54,20 @@ import javax.swing.event.MenuListener;
 */
 @SuppressWarnings("serial")
 public class Main extends JFrame {
-	private PriceFinder price;    /** Default dimension of the dialog. */
+	JPanel cpanel;
+	//private PriceFinder price;    /** Default dimension of the dialog. */
     private final static Dimension DEFAULT_SIZE = new Dimension(700, 600);
+    JProgressBar it = new JProgressBar();
     ItemView itemView2;
     ItemList itemList;
+    JTextField textFieldadd;
+    JTextField textFieldadd2;
+    JPanel control;
     ViewList viewList;
+    JFrame frame;
     inOut file;
+    JProgressBar pbar;
+    JScrollPane scroll;
     /** Special panel to display the watched item. */
     private JPanel board;
       
@@ -82,25 +97,77 @@ public class Main extends JFrame {
     private void refreshButtonClicked(ActionEvent event) {
     	
     	int size = viewList.getSize();
+    	it.setMinimum(0);
+    	it.setMaximum(size*4);
+    	it.setValue(0);
+    	it.setStringPainted(true);
     	for(int i = 0;i < size; ++i)
     	{
-
-    		itemList.returnItem(i).setPrice(price.getNewPrice());
+    		
+    		
+    		getPrice(i);
+    		//try {
+			//	itemList.returnItem(i).setPrice(price.getPriceFromPage(itemList.returnItem(i).returnURL()));
+			//} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			//	JOptionPane.showMessageDialog(null,"unable to get price from website for :"+ itemList.returnItem(i).returnName());
+			//} //returnURL()
             //viewList.returnItem(i).paint(viewList.returnItem(i).getGraphics());//, itemList.returnItem(i));
-    		viewList.returnItem(i).re(viewList.returnItem(i).getGraphics());
+    		//viewList.returnItem(i).re(viewList.returnItem(i).getGraphics());
     	}
         showMessage("Refresh clicked!");
-    } private void refreshButtonClicked() {
-    	
+    } 
+    private void editbuttonClicked(ActionEvent event)
+    {
     	int size = viewList.getSize();
     	for(int i = 0;i < size; ++i)
     	{
-
-    		itemList.returnItem(i).setPrice(price.getNewPrice());
-            //viewList.returnItem(i).paint(viewList.returnItem(i).getGraphics());//, itemList.returnItem(i));
-    		viewList.returnItem(i).re(viewList.returnItem(i).getGraphics());
+    		if(viewList.returnItem(i).returnisClicked() == 0)
+    		{
+    			
+    		}
+    		else
+    		{
+    			viewList.returnItem(i).edit(itemList.returnItem(i));
+    		}
+    	//viewList.returnItem(i).returnisClicked();
     	}
+    	
+    }
+    
+    private void refreshButtonClicked() {
+    	
+    	int size = viewList.getSize();
+    	it.setMinimum(0);
+    	it.setMaximum(size*4);
+    	it.setValue(0);
+    	it.setStringPainted(true);
+    	
+    	for(int i = 0;i < size; ++i)
+    	{
+    		getPrice(i);
+    		//try {
+			//	itemList.returnItem(i).setPrice(price.getPriceFromPage(itemList.returnItem(i).returnURL()));
+			//} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				//JOptionPane.showMessageDialog(null,"unable to get price from website for :"+ itemList.returnItem(i).returnName());
+			//}
+            //viewList.returnItem(i).paint(viewList.returnItem(i).getGraphics());//, itemList.returnItem(i));
+
+        	//PriceFinder price2 = new PriceFinder(viewList.returnItem(i),itemList.returnItem(i));
+    		//price2.start();
+    		//threadSearch(i);
+    		//viewList.returnItem(i).rep(viewList.returnItem(i).getGraphics());
+    		
+    		//viewList.returnItem(i).rep(viewList.returnItem(i).getGraphics());
+    	}
+		
+    	//getprice(0);
         showMessage("Refresh clicked!");
+        pack();
+        board.repaint();
     }
     private void addItemClicked(ActionEvent event) {
     	
@@ -109,7 +176,57 @@ public class Main extends JFrame {
     	showMessage("Add Item clicked!");
     }
 	private void addClicked(ActionEvent event) {
-		JOptionPane.getRootFrame().dispose(); 
+
+        try {
+            URL url = new URL(textFieldadd2.getText());
+            URLConnection conn = url.openConnection();
+            conn.connect();
+
+            if((textFieldadd2.getText().contains("bestbuy"))||(textFieldadd2.getText().contains("walmart"))||(textFieldadd2.getText().contains("target")))
+            {
+            	int size = viewList.getSize();
+                itemList.addItem(new Item());
+                itemList.returnItem(size).setDate();
+                itemList.returnItem(size).setName(textFieldadd.getText());
+                itemList.returnItem(size).setURL(textFieldadd2.getText());
+        	    viewList.addItem(new ItemView(itemList.returnItem(size)));
+        	    viewList.returnItem(size).setPreferredSize(new Dimension(300, 200));
+        	    viewList.returnItem(size).setClickListener(this::viewPageClicked); 
+        	    //System.out.println(" before get price");
+        	    getPrice(size);
+        	    board.add(viewList.returnItem(size));
+        	    refreshButtonClicked();
+               // try {
+        	   try {
+				file.saveItemToFile(itemList);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        		//} catch (ClassNotFoundException e) {
+        			// TODO Auto-generated catch block
+        		//	e.printStackTrace();
+        		//}
+        		frame.dispose(); 
+            	
+            }
+            else
+            {
+            	JOptionPane.showMessageDialog(null,"This URL will not work as this website is not supported enter another please");
+        	
+            	
+            }
+        } catch (MalformedURLException e) {
+        	JOptionPane.showMessageDialog(null,"This URL will not work as something is wrong with it enter another please");
+        	return;
+        } catch (IOException e) {
+            // the connection couldn't be established
+        }
+
+	}
+	private void cancleClicked(ActionEvent event) {
+
+		frame.dispose(); 
 	}
 	
 	private void RemoveItemClicked(ActionEvent event) {
@@ -126,30 +243,56 @@ public class Main extends JFrame {
 		
     	showMessage("View clicked!");
     }
-        
+    
+	public void getPrice(int i)
+	{
+		
+		
+		/*
+		for (int i2 = 0; i2 <= 100; i2++) 
+		{
+			
+	      try {
+	        SwingUtilities.invokeLater(new Runnable() {
+	          public void run() {
+	        	  //it.updateBar(1);
+	          }
+	        });
+	        java.lang.Thread.sleep(100);
+	      } catch (InterruptedException e) {
+	        ;
+	      }
+		}*/
+		pack();
+		new PriceFinder(viewList.returnItem(i),itemList.returnItem(i),it,itemList).start();
+	}
     private void addItem()
     {
     	//JOptionPane.createDialog
-    	JDialog dialog = null;
+    	frame = new JFrame("Add Menu");
+    	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JOptionPane optionPane = new JOptionPane();
-        optionPane.setMessage("Add An Iten To The List ");
+        optionPane.setMessage("Add An Item To The List ");
         optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5,5));
         //JPanel panel2 = new JPanel();
         panel.add(new JLabel("Item Name"));
-        JTextField textField = new JTextField(10);
-        panel.add(textField);
+        textFieldadd = new JTextField(10);
+        panel.add(textFieldadd);
         
         JButton refresh = new JButton("ADD");
+        
+        
         refresh.addActionListener(this::addClicked);
 
         //JPanel panel3 = new JPanel();
         panel.add(new JLabel("URL"));
-        JTextField textField2 = new JTextField(10);
-        panel.add(textField2);
+        textFieldadd2 = new JTextField(10);
+        panel.add(textFieldadd2);
         JButton remove = new JButton("Cancel");
+        remove.addActionListener(this::cancleClicked);
 
 
         panel.add(refresh);
@@ -157,8 +300,10 @@ public class Main extends JFrame {
 
         optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
         optionPane.add(panel,1);
-        dialog = optionPane.createDialog(null, "ADD");
-        dialog.setVisible(true);
+        //dialog = optionPane.createDialog(null, "ADD");
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
         
         //panel.add(remove);
         
@@ -167,29 +312,35 @@ public class Main extends JFrame {
         //refresh.addActionListener(this::addItemClicked);
         
         
+    	/*
+        try {
+			itemList.returnItem(size).setPrice(price.getPriceFromPage(itemList.returnItem(size).returnURL()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"unable to get price from website for :"+ itemList.returnItem(size).returnName());
+		}
+        */
+        /*
     	int size = viewList.getSize();
         itemList.addItem(new Item());
         itemList.returnItem(size).setDate();
-        itemList.returnItem(size).setPrice(price.getNewPrice());
         itemList.returnItem(size).setName(textField.getText());
         itemList.returnItem(size).setURL(textField2.getText());
-        viewList.addItem(new ItemView(itemList.returnItem(size)));
-        viewList.returnItem(size).setPreferredSize(new Dimension(300, 200));
-        viewList.returnItem(size).setClickListener(this::viewPageClicked); 
-        board.add(viewList.returnItem(size));
-        refreshButtonClicked();
+	    viewList.addItem(new ItemView(itemList.returnItem(size)));
+	    viewList.returnItem(size).setPreferredSize(new Dimension(300, 200));
+	    viewList.returnItem(size).setClickListener(this::viewPageClicked); 
+	    System.out.println(" before get price");
+	    getPrice(size);
+	    board.add(viewList.returnItem(size));
+	    refreshButtonClicked();
         try {
-			file.saveItemToFile(itemList);
+	    file.saveItemToFile(itemList);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        try {
-			file.saveListToFile(viewList);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		*/
     }
     
     private void removeClickedItems()
@@ -200,12 +351,20 @@ public class Main extends JFrame {
     	{
     		if(viewList.returnItem(i).returnisClicked() > 0)
     		{
+    			
     			board.remove(viewList.returnItem(i));
         		itemList.deleteItem(i);
                 
         		viewList.deleteItem(i);
     			i--;
     			size--;
+
+    	        try {
+    				file.saveItemToFile(itemList);
+    			} catch (ClassNotFoundException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
     		}
     	}
     }
@@ -214,83 +373,16 @@ public class Main extends JFrame {
     private void configureUI() {
     	file = new inOut();
     	new Item();
-    	price = new PriceFinder();
+    	//price = new PriceFinder();
         itemList = new ItemList();
-        //JMenuItem menuItem;
-        //JMenuItem menuItem2;
-        //JMenuItem menuItem3;
-        //JMenuItem menuItem4;
-        //final JPopupMenu popup = new JPopupMenu();
-        itemList.addItem(new Item());
-        itemList.returnItem(0).setPrice(price.getNewPrice());
-        /*
-        menuItem = new JMenuItem("Add",new ImageIcon(getImage("add1.png")));
-        menuItem.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {addItem();}});
-        menuItem.setMnemonic(KeyEvent.VK_P);
-        popup.add(menuItem);
-
-        menuItem2 = new JMenuItem("Remove", new ImageIcon(getImage("remove1.jpg"))); 
-        menuItem2.setMnemonic(KeyEvent.VK_F);
-        menuItem2.addActionListener(new ActionListener() 
-        {
-        	public void actionPerformed(ActionEvent e) 
-        	{
-        		removeClickedItems();
-        		popup.hide();
-            }
-        }
-        );
-
-        popup.add(menuItem2);
-
-        menuItem3 = new JMenuItem("Edit",
-                new ImageIcon(getImage("edit1.png")));
-        menuItem3.setMnemonic(KeyEvent.VK_F);
-        menuItem3.addActionListener(new ActionListener() 
-        {
-            public void actionPerformed(ActionEvent e) 
-            {
-
-            	int size = viewList.getSize();
-            	int count=0;
-            	for(int i = 0;i < size; ++i)
-            	{
-            		count++;
-            	}
-            	popup.hide();
-            }
-        });
-        popup.add(menuItem3);
-
-        menuItem4 = new JMenuItem("View",
-                new ImageIcon(getImage("view1.jpg")));
-        menuItem4.setMnemonic(KeyEvent.VK_F);
-        menuItem4.addActionListener(new ActionListener() {
- 
-            public void actionPerformed(ActionEvent e) {
-            	int size = viewList.getSize();
-            	for(int i = 0;i < size; ++i)
-            	{
-
-            		if(viewList.returnItem(i).returnisClicked() > 0)
-            		{
-            			viewList.returnItem(i).openURL();
-            		}
-            	}
-            	popup.hide();
-            }
-        });
-        popup.add(menuItem4);
- 		*/
-        // add mouse listener
         viewList = new ViewList();
         setLayout(new BorderLayout());
-        JPanel control = makeControlPanel();
-
-        //control.setBackground(Color.BLACK);
+        control = makeControlPanel();
+        
+        control.setBackground(Color.WHITE);
         control.setOpaque(false);  
         control.setBorder(BorderFactory.createEmptyBorder(10,16,0,16)); 
-        //add(control, BorderLayout.NORTH);
+        add(control, BorderLayout.NORTH);
         board = new JPanel();
         board.setOpaque(false);
         board.setBorder(BorderFactory.createCompoundBorder(
@@ -302,7 +394,7 @@ public class Main extends JFrame {
         //addItem();
         //addItem();
         //addItem();
-        JScrollPane scroll = new JScrollPane(board);
+        scroll = new JScrollPane(board);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
         add(scroll, BorderLayout.CENTER);
         msgBar.setBorder(BorderFactory.createEmptyBorder(10,16,10,0));
@@ -322,16 +414,20 @@ public class Main extends JFrame {
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 
                 JPanel panel = new JPanel();
-                panel.setLayout(new GridLayout(3,1));
+                panel.setLayout(new GridLayout(4,1));
                 JButton refresh = new JButton("Refresh");
                 JButton remove = new JButton("Remove");
                 JButton add = new JButton("Add");
+                JButton edit = new JButton("Edit");
+                //editbuttonClicked
                 panel.add(refresh);
                 panel.add(remove);
                 panel.add(add);
+                panel.add(edit);
                 refresh.addActionListener(Main.this::refreshButtonClicked);//(this::refreshButtonClicked);
                 remove.addActionListener(Main.this::RemoveItemClicked);
                 add.addActionListener(Main.this::addItemClicked);
+                edit.addActionListener(Main.this::editbuttonClicked);
                 
                 optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
                 optionPane.add(panel,1);
@@ -353,6 +449,13 @@ public class Main extends JFrame {
            // }
         });
         pack();
+        /*
+        for(int i = 0; i < itemList.getSize(); i++)
+        {
+        	viewList.addItem(new ItemView(itemList.returnItem(i)));
+        	viewList.returnItem(i).setPreferredSize(new Dimension(300, 200));
+        	viewList.returnItem(i).setClickListener(this::viewPageClicked);
+        }
         for(int i = 0;viewList.getSize() > i ; i++)
         {
         	if(viewList.returnItem(i)==null)
@@ -365,9 +468,71 @@ public class Main extends JFrame {
         		
         	}
         }
+        */
+        //System.out.println("this far1");
+        loadItems();
         pack();
     }
+    public void loadItems()
+    {
+    	try {
+			itemList = file.loadItemFromFile();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        for(int i = 0;itemList.getSize() > i ; i++)
+        {
+        	if(itemList.returnItem(i)==null)
+        	{
+        		int counter = i;
+        		while(itemList.returnItem(counter)==null && counter < itemList.getSize())
+            	{
+            		counter +=1;
+            	}
+        		if( counter == itemList.getSize())
+        		{
+        			if(itemList.returnItem(counter)==null)
+                	{
+        				itemList.trimSize();
+                	}
+        		}
+        		else
+        		{
+        			itemList.addItem(itemList.returnItem(counter),i);
+        			itemList.deleteItem(counter);
+        		}
+        	}
+        	else
+        	{
+            	
+        		
+        	}
+        }
 
+        for(int i = 0; i < itemList.getSize(); i++)
+        {
+        	viewList.addItem(new ItemView(itemList.returnItem(i)));
+        	viewList.returnItem(i).setPreferredSize(new Dimension(300, 200));
+        	viewList.returnItem(i).setClickListener(this::viewPageClicked);
+        
+        }
+        for(int i = 0;viewList.getSize() > i ; i++)
+        {
+        	if(viewList.returnItem(i)==null)
+        	{
+        		
+        	}
+        	else
+        	{
+            	board.add(viewList.returnItem(i));
+        		
+        	}
+        }
+        //System.out.println("this far 2");
+        //System.out.println(itemList.getSize());
+        refreshButtonClicked();
+    }
     public Image getImage(String file) {
         try {
         	
@@ -377,6 +542,7 @@ public class Main extends JFrame {
         }
         return null;
     }
+    
 
 class RefreshMenuListener implements MenuListener {
 
@@ -439,28 +605,22 @@ class QMenuListener implements MenuListener {
 	
     /** Create a control panel consisting of a refresh button. */
     private JPanel makeControlPanel() {
-    	JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+    	cpanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
         JMenuBar menubar = new JMenuBar();
-        ImageIcon add = new ImageIcon(getImage("add.png"));
-        JMenu fileMenu = new JMenu();
-        fileMenu.addMenuListener(new AddMenuListener());
-        fileMenu.setIcon(add);
+        JMenu fileMenu = new JMenu("Menu");
+        JMenu addMenu = new JMenu("Add");
+        addMenu.addMenuListener(new AddMenuListener());
         menubar.add(fileMenu);
+        fileMenu.add(addMenu);
+        JMenu refreshMenu = new JMenu("Refresh");
+        refreshMenu.addMenuListener(new RefreshMenuListener());
+        fileMenu.add(refreshMenu);
         
-        ImageIcon refresh = new ImageIcon(getImage("refresh.jpg"));
-        JMenu fileMenu2 = new JMenu();
-        fileMenu2.addMenuListener(new RefreshMenuListener());
-        fileMenu2.setIcon(refresh);
-        menubar.add(fileMenu2);
-        
-        ImageIcon question = new ImageIcon(getImage("question.jpg"));
-        JMenu fileMenu3 = new JMenu();
+        JMenu fileMenu3 = new JMenu("About");
         fileMenu3.addMenuListener(new QMenuListener());
-        fileMenu3.setIcon(question);
-        menubar.add(fileMenu3);
+        fileMenu.add(fileMenu3);
         
         setJMenuBar(menubar);
-        //panel.add(menubar);
     	JButton refreshButton = new JButton("Refresh");
     	JButton removeButton = new JButton("Remove");
     	JButton addButton = new JButton("Add");
@@ -470,10 +630,11 @@ class QMenuListener implements MenuListener {
         refreshButton.addActionListener(this::refreshButtonClicked);
         removeButton.addActionListener(this::RemoveItemClicked);
         addButton.addActionListener(this::addItemClicked);
-        //panel.add(refreshButton);
-       // panel.add(removeButton);
-        //panel.add(addButton);
-        return panel;
+        cpanel.add(refreshButton);
+        cpanel.add(removeButton);
+        cpanel.add(addButton);
+        cpanel.add(it);
+        return cpanel;
     }
 
     /** Show briefly the given string in the message bar. */

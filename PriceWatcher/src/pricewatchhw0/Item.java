@@ -17,8 +17,9 @@ public class Item implements Serializable{
 	private String currentPriceString = "";
 	private String percentString = "";
 	private String name = "19IN 720p HDTV";
-	private String url = "https://www.amazon.com/Element-ELEFW195R-720p-Certified-Refurbished/dp/B01M2BWNUO/ref=sr_1_4?s=tv&ie=UTF8&qid=1538624337&sr=1-4&keywords=tv";
+	private String url = "";
 	private String date;
+	private Boolean hasPrice = false;
 	/** returns the first price */
 	public String returnLastPrice() //returns
 	{
@@ -28,6 +29,10 @@ public class Item implements Serializable{
 		
 	}
 	/** returns the current price */
+	public Boolean doesHavePrice()
+	{
+		return hasPrice;
+	}
 	public String returnCurrentPrice()
 	{
 		DecimalFormat df = new DecimalFormat("#.##");

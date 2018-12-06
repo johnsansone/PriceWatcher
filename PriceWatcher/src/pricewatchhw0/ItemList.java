@@ -19,6 +19,14 @@ public class ItemList implements Serializable  {
 		
 		// TODO Auto-generated constructor stub
 	}
+	public ItemList(ArrayList<Item> items) {
+		itemList = items;
+		// TODO Auto-generated constructor stub
+	}
+	public ArrayList<Item> returnList()
+	{
+		return itemList;
+	}
 	/**  */
 	public void addItem(Item item)
 	{
@@ -34,6 +42,16 @@ public class ItemList implements Serializable  {
 			
 		}
 		
+	}public void addItem(Item item, int i)
+	{
+		if(i<itemList.size())
+		{
+			itemList.add(i,item);
+		}
+	}
+	public void trimSize()
+	{
+		itemList.trimToSize();
 	}
 	public int getSize()
 	{
